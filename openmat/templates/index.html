@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title></title>
+
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <style>
+        body {
+            background-color: #383838;
+            color: #efefef;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid #6e6e6e;
+            margin: 0;
+            padding: 0.1rem;
+            min-width: 2.2rem;
+        }
+        th {
+            border-top: 0;
+        }
+        .selected {
+            background: #41e157;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('click', (event) => {
+            if (!event.target.matches('td')) {
+                return;
+            }
+            if (event.target.classList.contains('selected')) {
+                event.target.classList.remove('selected');
+            }
+            else {
+                event.target.classList.add('selected');
+            }
+        });
+    </script>
+</head>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th style="border: 0"></th>
+            <th>Mon</th>
+            <th>Tus</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for time in times %}
+        <tr>
+            <td style="text-align: right; border-left: 0">{{ time }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+
+</html>
