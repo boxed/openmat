@@ -20,4 +20,5 @@ urlpatterns = [
     path('', views.index),
     path('login/', views.Login().as_view()),
     path('sign_in/', views.sign_in),
+    path('schedule_item/', views.schedule_item),
 ]

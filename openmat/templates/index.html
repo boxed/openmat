@@ -1,3 +1,4 @@
+{% load openmat %}
 <html>
 <head>
     <title></title>
@@ -17,53 +18,93 @@
             margin: 0;
             padding: 0.1rem;
             min-width: 2.2rem;
+            text-align: center;
         }
         th {
             border-top: 0;
         }
-        .selected {
+        .select .selected {
             background: #41e157;
+            color: black;
+        }
+
+        .overview .selected {
+            border: 2px solid #41e157;
         }
     </style>
 
     <script>
         document.addEventListener('click', (event) => {
-            if (!event.target.matches('td')) {
+            if (!event.target.matches('td') || !event.target.parentElement.parentElement.parentElement.matches('.select')) {
                 return;
             }
+            let on;
             if (event.target.classList.contains('selected')) {
                 event.target.classList.remove('selected');
+                on = false;
             }
             else {
                 event.target.classList.add('selected');
+                on = true;
             }
+
+            let time = event.target.parentElement.attributes['data-time'].value;
+            let weekday = event.target.attributes['data-weekday'].value;
+
+            fetch('/schedule_item/', {method: 'POST', body: `${time}-${weekday}-${on}`})
         });
     </script>
 </head>
 <body>
 
-<table>
+<h1>
+    Times that work for me
+</h1>
+
+<table class="select">
     <thead>
         <tr>
             <th style="border: 0"></th>
-            <th>Mon</th>
-            <th>Tus</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
+            {% for weekday in weekdays %}
+                <th>{{ weekday }}</th>
+            {% endfor %}
         </tr>
     </thead>
     <tbody>
         {% for time in times %}
-        <tr>
+        <tr data-time="{{ time }}">
             <td style="text-align: right; border-left: 0">{{ time }}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            {% for weekday in weekdays %}
+                <td data-weekday="{{ weekday }}" {% selected %}>
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h1>
+    Overview of times that work for everyone
+</h1>
+
+<table class="overview">
+    <thead>
+        <tr>
+            <th style="border: 0"></th>
+            {% for weekday in weekdays %}
+                <th>{{ weekday }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for time in times %}
+        <tr data-time="{{ time }}">
+            <th style="text-align: right; border-left: 0">{{ time }}</th>
+            {% for weekday in weekdays %}
+                <td data-weekday="{{ weekday }}" {% selected %}>
+                    {% count %}
+                </td>
+            {% endfor %}
         </tr>
         {% endfor %}
     </tbody>

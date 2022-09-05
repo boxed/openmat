@@ -1,6 +1,10 @@
 from django.contrib.auth import login
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
+from django.db.models import Count
+from django.http import (
+    HttpResponse,
+    HttpResponseRedirect,
+)
 from django.shortcuts import render
 from iommi import (
     Field,
@@ -10,6 +14,7 @@ from iommi import (
 
 from openmat.models import (
     LoginToken,
+    ScheduleItem,
     User,
 )
 
@@ -20,11 +25,26 @@ def index(request):
         times.append(f'{i}:00')
         times.append(f'{i}:30')
 
+    weekdays = [
+        'Mon',
+        'Tus',
+        'Wed',
+        'Thu',
+        'Fri',
+        'Sat',
+    ]
+
     return render(
         request,
         template_name='index.html',
         context=dict(
             times=times,
+            weekdays=weekdays,
+            selected=set(ScheduleItem.objects.filter(user=request.user).values_list('slot', flat=True)),
+            counts={
+                x['slot']: x['user__count']
+                for x in ScheduleItem.objects.values('slot').annotate(Count('user'))
+            },
         ),
     )
 
@@ -54,3 +74,12 @@ def sign_in(request):
     user, _ = User.objects.get_or_create(email=token.email)
     login(request, user)
     return HttpResponseRedirect('/')
+
+
+def schedule_item(request):
+    slot, _, on = request.body.decode().rpartition('-')
+    if on == 'true':
+        ScheduleItem.objects.get_or_create(user=request.user, slot=slot)
+    else:
+        ScheduleItem.objects.filter(user=request.user, slot=slot).delete()
+    return HttpResponse('ok')
