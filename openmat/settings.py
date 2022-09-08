@@ -22,10 +22,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-h+d*^2ifsrd&)gif_8%z5qh$6pqoclhank9jsdf@f-tl-&)n9+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if 'DOKKU_POSTGRES_OPENMAT_NAME' in os.environ:
+    ENV = 'prod'
+    BASE_URL = 'https://openmat.kodare.net'
+    DOKKU_APP_NAME = 'OPENMAT'
 
-ALLOWED_HOSTS = []
+else:
+    ENV = 'dev'
+    BASE_URL = 'http://localhost:8000'
+    DOKKU_APP_NAME = None
+
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = ENV == 'dev'
+
+if ENV == 'prod':
+    ALLOWED_HOSTS = [
+        'openmat.kodare.net',
+    ]
+else:
+    ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -78,15 +94,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'openmat.wsgi.application'
 
 
-if 'DOKKU_POSTGRES_OPENMAT_NAME' in os.environ:
-    ENV = 'prod'
-    BASE_URL = 'https://openmat.kodare.net'
-    DOKKU_APP_NAME = 'OPENMAT'
-
-else:
-    ENV = 'dev'
-    BASE_URL = 'http://localhost:8000'
-    DOKKU_APP_NAME = None
 
 dokku_db_conf = {
     'NAME': 'openmat',
