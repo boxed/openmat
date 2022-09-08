@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'openmat.wsgi.application'
 if 'DOKKU_POSTGRES_OPENMAT_NAME' in os.environ:
     ENV = 'prod'
     BASE_URL = 'https://openmat.kodare.net'
-    DOKKU_APP_NAME = 'openmat'
+    DOKKU_APP_NAME = 'OPENMAT'
 
 else:
     ENV = 'dev'
