@@ -159,6 +159,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = str(Path(BASE_DIR) / 'staticfiles')
 
 FASTDEV_STRICT_IF = True
 
