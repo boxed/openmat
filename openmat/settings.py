@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,14 +78,39 @@ TEMPLATES = [
 WSGI_APPLICATION = 'openmat.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+if 'DOKKU_POSTGRES_OPENMAT_NAME' in os.environ:
+    ENV = 'prod'
+    BASE_URL = 'https://openmat.kodare.net'
+    DOKKU_APP_NAME = 'openmat'
 
-DATABASES = {
-    'default': {
+else:
+    ENV = 'dev'
+    BASE_URL = 'http://localhost:8000'
+    DOKKU_APP_NAME = None
+
+dokku_db_conf = {
+    'NAME': 'openmat',
+}
+if DOKKU_APP_NAME:
+    dokku_db_conf = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'PORT': os.environ[f'DOKKU_POSTGRES_{DOKKU_APP_NAME}_PORT_5432_TCP_PORT'],
+        'HOST': os.environ[f'DOKKU_POSTGRES_{DOKKU_APP_NAME}_PORT_5432_TCP_ADDR'],
+        'USER': 'postgres',
+        'PASSWORD': os.environ[f'DOKKU_POSTGRES_{DOKKU_APP_NAME}_ENV_POSTGRES_PASSWORD'],
+        'NAME': DOKKU_APP_NAME.lower(),
+    }
+else:
+    dokku_db_conf = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # Database
+# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+
+DATABASES = {
+    'default': dokku_db_conf,
 }
 
 AUTH_USER_MODEL = 'openmat.User'
