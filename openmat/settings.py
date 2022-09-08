@@ -38,7 +38,7 @@ DEBUG = ENV == 'dev'
 
 if ENV == 'prod':
     ALLOWED_HOSTS = [
-        'openmat.kodare.net',
+        'openmat.kodare.com',
     ]
 else:
     ALLOWED_HOSTS = []
