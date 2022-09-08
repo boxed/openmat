@@ -29,7 +29,7 @@ if 'DOKKU_POSTGRES_OPENMAT_NAME' in os.environ:
 
 else:
     ENV = 'dev'
-    BASE_URL = 'http://localhost:8000'
+    BASE_URL = 'http://localhost:8004'
     DOKKU_APP_NAME = None
 
 
@@ -92,7 +92,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'openmat.wsgi.application'
-
 
 
 dokku_db_conf = {

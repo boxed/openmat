@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.db.models import Count
@@ -60,11 +61,11 @@ class Login(Form):
             token = LoginToken.objects.create(email=email)
             send_mail(
                 subject='Sign in to openmat',
-                message=f'Sign in link: http://127.0.0.1:8004/sign_in/?code={token.uuid}',
+                message=f'Sign in link: {settings.BASE_URL}/sign_in/?code={token.uuid}',
                 from_email='robot@killingar.net',
                 recipient_list=[email],
             )
-            return Page('Check your email for the login link')
+            return Page(parts__message='Check your email for the login link')
 
     explanation = 'Write your email to sign up/login'
     email = Field.email()
