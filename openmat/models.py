@@ -6,13 +6,20 @@ from django.db.models import (
     CharField,
     EmailField,
     ForeignKey,
+    ManyToManyField,
     Model,
+    SET_NULL,
     UUIDField,
 )
 
 
 class User(AbstractUser):
-    pass
+    topics = ManyToManyField('Topic')
+
+
+class Topic(Model):
+    name = CharField(max_length=255)
+    created_by = ForeignKey(User, null=True, on_delete=SET_NULL)
 
 
 class LoginToken(Model):

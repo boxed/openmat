@@ -21,4 +21,5 @@ urlpatterns = [
     path('login/', views.Login().as_view()),
     path('sign_in/', views.sign_in),
     path('schedule_item/', views.schedule_item),
+    path('show_people/<slot>/', views.show_people),
 ]

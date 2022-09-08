@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.http import (
     HttpResponse,
     HttpResponseRedirect,
+    JsonResponse,
 )
 from django.shortcuts import render
 from iommi import (
@@ -83,3 +84,7 @@ def schedule_item(request):
     else:
         ScheduleItem.objects.filter(user=request.user, slot=slot).delete()
     return HttpResponse('ok')
+
+
+def show_people(request, slot):
+    return JsonResponse(dict(users=[x.user.email for x in ScheduleItem.objects.filter(slot=slot).select_related('user')]))

@@ -53,6 +53,15 @@
 
             fetch('/schedule_item/', {method: 'POST', body: `${time}-${weekday}-${on}`})
         });
+
+        function show_people(key) {
+            fetch(`/show_people/${key}/`).then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                alert(data.users);
+            });
+        }
     </script>
 </head>
 <body>
@@ -101,7 +110,7 @@
         <tr data-time="{{ time }}">
             <th style="text-align: right; border-left: 0">{{ time }}</th>
             {% for weekday in weekdays %}
-                <td data-weekday="{{ weekday }}" {% selected %}>
+                <td data-weekday="{{ weekday }}" {% selected %} onclick="show_people('{{ time }}-{{ weekday }}')">
                     {% count %}
                 </td>
             {% endfor %}
