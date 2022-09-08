@@ -2,3 +2,4 @@ django==4.1
 iommi==5.1.2
 django-fastdev==1.7.2
 psycopg2
+gunicorn
