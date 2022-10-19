@@ -87,6 +87,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins': [
+                'openmat.templatetags.openmat',
+            ]
         },
     },
 ]
@@ -167,9 +170,14 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 STATIC_URL = 'static/'
 STATIC_ROOT = str(Path(BASE_DIR) / 'staticfiles')
 
-FASTDEV_STRICT_IF = True
+# FASTDEV_STRICT_IF = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from .settings_local import *
+except ImportError:
+    pass

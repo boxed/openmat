@@ -4,22 +4,36 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models import (
     CASCADE,
     CharField,
+    Choices,
     EmailField,
     ForeignKey,
     ManyToManyField,
     Model,
     SET_NULL,
+    TextChoices,
     UUIDField,
 )
 
 
+class BeltChoices(TextChoices):
+    white = 'white', 'white'
+    blue = 'blue', 'blue'
+    purple = 'purple', 'purple'
+    brown = 'brown', 'brown'
+    black = 'black', 'black'
+
+
 class User(AbstractUser):
     topics = ManyToManyField('Topic')
+    belt = CharField(null=True, choices=BeltChoices.choices, max_length=255)
 
 
 class Topic(Model):
     name = CharField(max_length=255)
     created_by = ForeignKey(User, null=True, on_delete=SET_NULL)
+
+    def __str__(self):
+        return self.name
 
 
 class LoginToken(Model):

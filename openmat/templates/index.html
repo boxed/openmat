@@ -1,7 +1,6 @@
-{% load openmat %}
 <html>
 <head>
-    <title></title>
+    <title>Open mat buddy finder</title>
 
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <style>
@@ -81,13 +80,13 @@
     </thead>
     <tbody>
         {% for time in times %}
-        <tr data-time="{{ time }}">
-            <td style="text-align: right; border-left: 0">{{ time }}</td>
-            {% for weekday in weekdays %}
-                <td data-weekday="{{ weekday }}" {% selected %}>
-                </td>
-            {% endfor %}
-        </tr>
+            <tr data-time="{{ time }}">
+                <td style="text-align: right; border-left: 0">{{ time }}</td>
+                {% for weekday in weekdays %}
+                    <td data-weekday="{{ weekday }}" {% selected %}>
+                    </td>
+                {% endfor %}
+            </tr>
         {% endfor %}
     </tbody>
 </table>
@@ -107,14 +106,14 @@
     </thead>
     <tbody>
         {% for time in times %}
-        <tr data-time="{{ time }}">
-            <th style="text-align: right; border-left: 0">{{ time }}</th>
-            {% for weekday in weekdays %}
-                <td data-weekday="{{ weekday }}" {% selected %} onclick="show_people('{{ time }}-{{ weekday }}')">
-                    {% count %}
-                </td>
-            {% endfor %}
-        </tr>
+            <tr data-time="{{ time }}">
+                <th style="text-align: right; border-left: 0">{{ time }}</th>
+                {% for weekday in weekdays %}
+                    <td data-weekday="{{ weekday }}" {% selected %} onclick="show_people('{{ time }}-{{ weekday }}')">
+                        {% count %}
+                    </td>
+                {% endfor %}
+            </tr>
         {% endfor %}
     </tbody>
 </table>
