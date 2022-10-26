@@ -177,6 +177,17 @@ STATIC_ROOT = str(Path(BASE_DIR) / 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+if not DEBUG:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn="https://b8956fa71f244491bf961ab2e99fe737@o238340.ingest.sentry.io/4504050513674240",
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
+    )
+
+
 try:
     from .settings_local import *
 except ImportError:
