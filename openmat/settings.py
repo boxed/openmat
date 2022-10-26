@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-h+d*^2ifsrd&)gif_8%z5qh$6pqoclhank9jsdf@f-tl-&)n9+
 
 if 'DOKKU_POSTGRES_OPENMAT_NAME' in os.environ:
     ENV = 'prod'
-    BASE_URL = 'https://openmat.kodare.net'
+    BASE_URL = 'https://openmat.kodare.com'
     DOKKU_APP_NAME = 'OPENMAT'
 
 else:
