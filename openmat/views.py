@@ -223,7 +223,7 @@ class Login(Form):
 
 def sign_in(request):
     token = LoginToken.objects.get(uuid=request.GET['code'])
-    user, _ = User.objects.get_or_create(email=token.email)
+    user, _ = User.objects.get_or_create(email=token.email, defaults=dict(username=token.email))
     login(request, user)
     return HttpResponseRedirect('/')
 
