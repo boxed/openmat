@@ -1,1 +1,1 @@
-web: gunicorn openmat.wsgi -t 36000 --log-file - -w 4
+web: gunicorn openmat.wsgi -t 36000 --log-file - -w 1
